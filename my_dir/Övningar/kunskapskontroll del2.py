@@ -1,3 +1,17 @@
+import os
+from pathlib import Path
+
+# Ladda API_KEY från .env i my_dir 
+_env = Path(__file__).resolve().parent.parent / ".env"
+if _env.exists():
+    with open(_env) as f:
+        for line in f:
+            if line.strip().startswith("API_KEY="):
+                os.environ["API_KEY"] = line.split("=", 1)[1].strip().strip("'\"")
+                break
+API_KEY = os.getenv("API_KEY")
+if not API_KEY:
+    raise ValueError("API_KEY saknas. Skapa .env i projektroten med raden: API_KEY=din_nyckel")
 
 import streamlit as st
 import numpy as np
@@ -6,18 +20,13 @@ from google.genai import types
 from pypdf import PdfReader
 from PIL import Image
 import io
-import os
 import time
 
 # STANDARD KOKBOK - Laddas automatiskt vid start
 DEFAULT_PDF_PATH = "/Users/namiandisheh/Desktop/AI Del 2/USU-Student-Cookbook-FINAL-1.pdf"
 
-# API-nyckel (bör användas från miljövariabel i produktion)
-API_KEY = os.getenv("API_KEY")
-
 @st.cache_resource
 def get_client():
-    # Skapar och cachar Gemini
     return genai.Client(api_key=API_KEY)
 
 client = get_client()

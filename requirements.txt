@@ -6,3 +6,6 @@ tensorflow>=2.8.0
 notebook>=6.0.0
 streamlit>=1.0.0
 pillow>=7.1.0
+google-genai>=1.0.0
+pypdf>=3.0.0
+python-dotenv>=1.0.0
